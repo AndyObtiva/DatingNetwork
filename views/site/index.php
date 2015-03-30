@@ -23,7 +23,7 @@ $this->title = 'The Dating Network';
                   $count++;
             ?>
             <div class="col-lg-4">
-                <h2><?= BaseHtml::img(Yii::$app->request->baseUrl."/../assets/images/image{$count}.jpg", array('width' => '300')) ?></h2>
+                <h2><?= BaseHtml::img("/images/image{$count}.jpg", array('width' => '300')) ?></h2>
 
                 <p><?= $status->message ?></p>
 
