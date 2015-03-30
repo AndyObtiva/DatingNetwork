@@ -1,43 +1,51 @@
 <?php
-  namespace app\models;
 
-  use yii\base\Model;
+namespace app\models;
 
-  class Status extends Model
-  {
-    const PERMISSIONS_PRIVATE = 10;
-    const PERMISSIONS_PUBLIC = 20;
+use Yii;
 
-    public $text;
-    public $permissions;
+/**
+ * This is the model class for table "status".
+ *
+ * @property integer $id
+ * @property string $message
+ * @property integer $permissions
+ * @property integer $created_at
+ * @property integer $updated_at
+ */
+class Status extends \yii\db\ActiveRecord
+{
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'status';
+    }
 
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
-      return [
-        [['text', 'permissions'], 'required']
-      ];
+        return [
+            [['message', 'created_at', 'updated_at'], 'required'],
+            [['message'], 'string'],
+            [['permissions', 'created_at', 'updated_at'], 'integer']
+        ];
     }
 
-    public static function getAvailablePermissions() 
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
     {
-      return [
-        self::PERMISSIONS_PRIVATE => 'Private', 
-        self::PERMISSIONS_PUBLIC => 'Public'
-      ];
+        return [
+            'id' => Yii::t('app', 'ID'),
+            'message' => Yii::t('app', 'Message'),
+            'permissions' => Yii::t('app', 'Permissions'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
+        ];
     }
-     
-    public function getPermissionsLabel() 
-    {
-      return $this->buildPermissionsLabel($this->permissions);
-    }
-     
-    public function buildPermissionsLabel($permissions) 
-    {
-      if ($permissions == self::PERMISSIONS_PUBLIC) {
-        return 'Public';
-      } else {
-        return 'Private';        
-      }
-    }
-  }
-?>
+}
