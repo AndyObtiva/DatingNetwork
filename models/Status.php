@@ -15,6 +15,8 @@ use Yii;
  */
 class Status extends \yii\db\ActiveRecord
 {
+    const PERMISSIONS_PRIVATE = 10;
+    const PERMISSIONS_PUBLIC = 20;
     /**
      * @inheritdoc
      */
@@ -48,4 +50,13 @@ class Status extends \yii\db\ActiveRecord
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
     }
+
+    public static function getAvailablePermissions() 
+    {
+      return [
+        self::PERMISSIONS_PRIVATE => 'Private', 
+        self::PERMISSIONS_PUBLIC => 'Public'
+      ];
+    }
+
 }

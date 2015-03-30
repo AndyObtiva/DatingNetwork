@@ -18,10 +18,10 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'user' => [
-            'identityClass' => 'app\models\User',
-            'enableAutoLogin' => true,
-        ],
+        #'user' => [
+        #    'identityClass' => 'app\models\User',
+        #    'enableAutoLogin' => true,
+        #],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
@@ -31,6 +31,15 @@ $config = [
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
             'useFileTransport' => true,
+            //'transport' => [
+                //'class' => 'Swift_SendmailTransport',
+                //'class' => 'Swift_SmtpTransport',
+                //'host' => 'localhost',
+                //'username' => 'username',
+                //'password' => 'password',
+                //'port' => '587',
+                //'encryption' => 'tls',
+            //],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -44,6 +53,13 @@ $config = [
         'db' => require(__DIR__ . '/db.php'),
     ],
     'params' => $params,
+    'modules' => [
+        'user' => [
+            'class' => 'dektrium\user\Module',
+            'admins' => ['root'],
+            'enableConfirmation' => false,
+        ],
+    ],
 ];
 
 if (YII_ENV_DEV) {

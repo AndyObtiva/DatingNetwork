@@ -61,8 +61,9 @@ class StatusController extends Controller
     public function actionCreate()
     {
         $model = new Status();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $model->created_at = $model->updated_at = time();
+        $modelLoadResult = $model->load(Yii::$app->request->post());
+        if ($modelLoadResult && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [

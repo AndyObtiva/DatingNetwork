@@ -32,22 +32,28 @@ AppAsset::register($this);
                     'class' => 'navbar-inverse navbar-fixed-top',
                 ],
             ]);
-            echo Nav::widget([
-                'options' => ['class' => 'navbar-nav navbar-right'],
-                'items' => [
+            $accountItems = [];
+            if (Yii::$app->user->isGuest) {
+                array_push($accountItems, ['label' => 'Login', 'url' => ['/user/security/login']]);
+                array_push($accountItems, ['label' => 'Register', 'url' => ['/user/registration/register']]);
+            } else {
+                array_push($accountItems, 
+                        [ 
+                            'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+                            'url' => ['/user/security/logout'],
+                            'linkOptions' => ['data-method' => 'post']]);
+            }
+            $navWidgetItems = [
                     ['label' => 'Home', 'url' => ['/site/index']],
-                    ['label' => 'Status', 'items' => [
-                      ['label' => 'Create', 'url' => ['/status/create']]
-                    ]],
+                    ['label' => 'Status', 'url' => ['/status/index']],
                     ['label' => 'Greet', 'url' => ['/site/greet']],
                     ['label' => 'About', 'url' => ['/site/about']],
                     ['label' => 'Contact', 'url' => ['/site/contact']],
-                    Yii::$app->user->isGuest ?
-                        ['label' => 'Login', 'url' => ['/site/login']] :
-                        ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                            'url' => ['/site/logout'],
-                            'linkOptions' => ['data-method' => 'post']],
-                ],
+                    ['label' => 'Account', 'items' => $accountItems],
+            ];
+            echo Nav::widget([
+                'options' => ['class' => 'navbar-nav navbar-right'],
+                'items' => $navWidgetItems,
             ]);
             NavBar::end();
         ?>
